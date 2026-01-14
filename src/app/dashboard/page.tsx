@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  
 
   if (!user) {
     return (

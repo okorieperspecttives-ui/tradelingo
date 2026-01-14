@@ -7,6 +7,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutDashboard, BookOpen, LineChart, MessageSquare, Trophy, Settings, Menu, X, LogOut, User } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import clsx from 'clsx';
+import { supabase } from '@/lib/supabase/client';
+import { toast } from 'react-toastify';
+import { useAuth } from '@/lib/auth/AuthContext';
+
 
 const menuItems = [
   { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
@@ -22,9 +26,20 @@ const secondaryItems = [
 ];
 
 export default function Sidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [openMobile, setOpenMobile] = useState(false);
+  const {user} = useAuth()
   const pathname = usePathname();
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast.success('Logged out successfully');
+    } catch (error) {
+      console.error('Error logging out:', error);
+      toast.error('Error logging out');
+    }
+  }
 
   return (
     <>
@@ -109,7 +124,7 @@ export default function Sidebar() {
                 <p className="text-xs text-gray-500 truncate">Pro Trader</p>
               </div>
             )}
-            {!isCollapsed && <button className="text-gray-400 hover:text-white cursor-pointer"><LogOut size={18} /></button>}
+            {!isCollapsed && user && <button className="text-gray-400 hover:text-white cursor-pointer"><LogOut onClick={handleLogout} size={18} /></button>}
           </div>
         </div>
       </motion.aside>
