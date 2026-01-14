@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold-100: #F9F1D8;
+  --color-gold-200: #F0DEAA;
+  --color-gold-300: #E6CB7D;
+  --color-gold-400: #DDB850;
+  --color-gold-500: #D4AF37;
+  --color-gold-600: #AA8C2C;
+  --color-gold-700: #806921;
+  --color-gold-800: #554616;
+  --color-gold-900: #2B230B;
+
+  --color-dark-bg: #0f0f0f;
+  --color-dark-card: #1a1a1a;
+  --color-dark-border: #333333;
+
+  --font-sans: var(--font-inter), sans-serif;
+  --font-serif: var(--font-playfair), serif;
+}
+
+body {
+  color: #ffffff;
+  background: var(--color-dark-bg);
+}
+
+.theme-dark {
+  --color-dark-bg: #0f0f0f;
+  --color-dark-card: #1a1a1a;
+  --color-dark-border: #333333;
+}
+
+.theme-light {
+  --color-dark-bg: #f7f7f7;
+  --color-dark-card: #ffffff;
+  --color-dark-border: #e5e5e5;
+}
+
+.theme-light body {
+  color: #111111;
+}
+
+.bg-shape-1 {
+  animation: float1 18s ease-in-out infinite;
+}
+.bg-shape-2 {
+  animation: float2 26s ease-in-out infinite;
+}
+.bg-shape-3 {
+  animation: float3 22s ease-in-out infinite;
+}
+@keyframes float1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -20px) scale(1.05); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes float2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-40px, 35px) scale(1.07); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes float3 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, 25px) scale(1.03); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
