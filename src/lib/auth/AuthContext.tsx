@@ -20,6 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [profileEnsuredFor, setProfileEnsuredFor] = useState<string | null>(null);
+  const courseId = 'forex-foundations';
 
   async function ensureProfile(u: User) {
     if (!u?.id) return;
@@ -28,6 +29,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .from('profiles')
       .upsert({ id: u.id }, { onConflict: 'id', ignoreDuplicates: true });
     if (!error) setProfileEnsuredFor(u.id);
+  }
+  async function ensureEnrollment(u: User) {
+    if (!u?.id) return;
+    await supabase
+      .from('enrollments')
+      .upsert({ user_id: u.id, course_id: courseId }, { onConflict: 'user_id,course_id', ignoreDuplicates: true });
   }
 
   useEffect(() => {
@@ -39,7 +46,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, sess) => {
       setSession(sess ?? null);
       setUser(sess?.user ?? null);
-      if (sess?.user) ensureProfile(sess.user);
+      if (sess?.user) {
+        ensureProfile(sess.user);
+        ensureEnrollment(sess.user);
+      }
     });
     return () => {
       sub.subscription.unsubscribe();
@@ -59,7 +69,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const redirect = typeof window !== 'undefined' ? `${window.location.origin}/verify` : undefined;
         const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: redirect } });
         if (error) throw error;
-        if (data.user) await ensureProfile(data.user);
+        if (data.user) {
+          await ensureProfile(data.user);
+          await ensureEnrollment(data.user);
+        }
       },
       async signOut() {
         const { error } = await supabase.auth.signOut();
