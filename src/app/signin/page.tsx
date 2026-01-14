@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@/lib/auth/AuthContext';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
+import { toast } from 'react-toastify';
 
 export default function SignInPage() {
   const { signIn, signUp } = useAuth();
@@ -21,12 +22,17 @@ export default function SignInPage() {
     try {
       if (mode === 'signin') {
         await signIn(email, password);
+        toast.success('Signed in successfully');
       } else {
         await signUp(email, password);
+        toast.success('Account created. Please verify your email.');
+        router.replace('/verify');
+        return;
       }
       router.replace('/dashboard');
     } catch (err: any) {
       setError(err.message ?? (mode === 'signin' ? 'Sign in failed' : 'Sign up failed'));
+      toast.error(err.message ?? 'An error occurred');
     } finally {
       setLoading(false);
     }
@@ -38,9 +44,15 @@ export default function SignInPage() {
       provider: 'google',
       options: { redirectTo: typeof window !== 'undefined' ? `${window.location.origin}/dashboard` : undefined },
     });
-    if (error) setError(error.message);
+    if (error) {
+      setError(error.message);
+      toast.error(error.message);
+    } else {
+      toast.info('Redirecting to Google…');
+    }
   }
 
+  
   return (
     <main className="min-h-screen flex items-center justify-center bg-dark-bg p-4">
       <div className="w-full max-w-md bg-dark-card border border-gold-500/10 p-6 rounded-xl">
