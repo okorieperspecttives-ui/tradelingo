@@ -78,7 +78,7 @@ export default function Sidebar() {
             const isActive = pathname === item.href;
             return (
               <Link key={item.name} href={item.href}>
-                <div className={clsx('flex items-center p-3 rounded-lg cursor-pointer transition-all duration-200 group relative', isActive ? 'bg-gold-500/10 text-gold-500' : 'text-gray-400 hover:bg-gray-800 hover:text-gray-200')}>
+                <div className={clsx('flex items-center p-3 rounded-lg cursor-pointer transition-all duration-200 group relative', isActive ? 'bg-gold-500/10 text-gold-500' : 'text-gray-600 hover-bg-border hover:text-gray-900')}>
                   <item.icon size={24} className={clsx('min-w-[24px]', isActive && 'text-gold-500')} />
                   <AnimatePresence>
                     {!isCollapsed && (
@@ -99,7 +99,7 @@ export default function Sidebar() {
             const isActive = pathname === item.href;
             return (
               <Link key={item.name} href={item.href}>
-                <div className={clsx('flex items-center p-3 rounded-lg cursor-pointer transition-all duration-200 group relative', isActive ? 'bg-gold-500/10 text-gold-500' : 'text-gray-400 hover:bg-gray-800 hover:text-gray-200')}>
+                <div className={clsx('flex items-center p-3 rounded-lg cursor-pointer transition-all duration-200 group relative', isActive ? 'bg-gold-500/10 text-gold-500' : 'text-gray-600 hover-bg-border hover:text-gray-900')}>
                   <item.icon size={24} className="min-w-[24px]" />
                   <AnimatePresence>
                     {!isCollapsed && (

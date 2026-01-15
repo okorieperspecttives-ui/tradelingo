@@ -114,7 +114,12 @@ export default function LearnPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-serif text-2xl text-gold-500">Courses</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="font-serif text-2xl text-gold-500">Courses</h1>
+        <Link href="/dashboard/learn/create" className="px-4 py-2 rounded-lg bg-gold-500 text-black font-semibold hover:opacity-90 transition cursor-pointer">
+          Create Lesson
+        </Link>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {courses.map((c) => (
           <div key={c.id} className="bg-dark-card p-6 rounded-xl border border-gold-500/10 flex flex-col gap-3">

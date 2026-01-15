@@ -84,3 +84,7 @@ body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.hover-bg-border:hover {
+  background-color: var(--color-dark-border);
+}
